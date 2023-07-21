@@ -7,14 +7,11 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import LungoBrowser.App;
 import LungoBrowser.Debug;
-import LungoBrowser.HandlePage;
 import LungoBrowser.Window;
 
 public class PageTab extends JPanel {

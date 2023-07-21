@@ -27,7 +27,6 @@ import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 
 import LungoBrowser.Debug.Flag;
 
