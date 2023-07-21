@@ -1,0 +1,30 @@
+{
+    "java.project.sourcePaths": ["src"],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar"
+    ],
+    "cSpell.words": [
+        "blackline",
+        "classpath",
+        "classpathentry",
+        "drawr",
+        "DUPJ",
+        "Hitbox",
+        "hitboxes",
+        "Indx",
+        "JSTACK",
+        "Lasm",
+        "Lungo",
+        "nashorn",
+        "POPALL",
+        "POPALLJ",
+        "POPJ",
+        "PUSHJ",
+        "pyyaml",
+        "Ratioed",
+        "strs",
+        "tabbar",
+        "vals"
+    ]
+}

@@ -1,0 +1,1 @@
+runUrl: "powershell .\\run.ps1 -d -sn \"\"\"$out\"\"\" -l \"\"\"$url\"\"\" -s $width $height"
