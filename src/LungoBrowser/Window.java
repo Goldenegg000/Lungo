@@ -93,7 +93,7 @@ public class Window extends Thread {
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                OnWindowClosed();
+                CloseThisWindow();
             }
         });
 
@@ -418,6 +418,18 @@ public class Window extends Thread {
         frame.repaint();
     }
 
+    public void removePageHandler(HandlePage pageHandler) {
+        PageHandlers.remove(pageHandler);
+        if (PageHandlers.size() == 0)
+            CloseThisWindow();
+        if (currentPageIndx > PageHandlers.size() - 1)
+            currentPageIndx = PageHandlers.size() - 1;
+        else if (currentPageIndx > 0)
+            currentPageIndx--;
+        updateTabBar();
+        frame.repaint();
+    }
+
     boolean updated = false;
 
     private void updateTabBar() {
@@ -525,7 +537,7 @@ public class Window extends Thread {
         }
     }
 
-    public void OnWindowClosed() { // dispose of this window
+    public void CloseThisWindow() { // dispose of this window
         frame.dispose();
         App.RemoveWindow(this);
     }
@@ -632,7 +644,7 @@ public class Window extends Thread {
                 return;
             }
             if (KeyBindProfile.CloseWindow.pressed(e) && key != "urlField") {
-                OnWindowClosed();
+                CloseThisWindow();
                 Log("closed window");
                 e.consume();
                 return;

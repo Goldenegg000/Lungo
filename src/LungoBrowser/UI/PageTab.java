@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import LungoBrowser.App;
 import LungoBrowser.Debug;
+import LungoBrowser.HandlePage;
 import LungoBrowser.Window;
 
 public class PageTab extends JPanel {
@@ -29,7 +30,7 @@ public class PageTab extends JPanel {
         label.setIcon(icon);
     }
 
-    public PageTab(Window self) {
+    public PageTab(Window self, HandlePage page) {
         super(new FlowLayout());
         setBackground(self.currentColorProfile.bgColorDef);
 
@@ -39,7 +40,7 @@ public class PageTab extends JPanel {
                 closeImage.getScaledInstance(ButtonSize, ButtonSize,
                         java.awt.Image.SCALE_SMOOTH),
                 self.urlField.getFont(), BevelBorder, (ActionEvent e) -> {
-                    Debug.Log(label.getText());
+                    self.removePageHandler(page);
                 }, false);
         closeButton.setBackground(new Color(0, 0, 0, 0));
 

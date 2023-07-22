@@ -16,6 +16,8 @@ public class HandlePage {
     public ArrayList<String> UrlHistory = new ArrayList<String>();
     public int UrlHistoryIndx = 0;
 
+    private static final String DefTabName = "Lungo Homepage";
+
     public PageTab PageTab;
 
     public void UrlUpdated(String url) {
@@ -25,15 +27,15 @@ public class HandlePage {
         self.frame.repaint();
 
         if (url == "") {
-            PageTab.setText("Lungo Homepage");
+            PageTab.setText(DefTabName);
         }
         if (Url == null || url == "")
-            PageTab.setText("<empty>");
+            PageTab.setText(DefTabName);
         else {
             if (Url.getHost() != null)
                 PageTab.setText(Url.getHost());
             else
-                PageTab.setText("<empty>");
+                PageTab.setText(DefTabName);
         }
     }
 
@@ -45,7 +47,7 @@ public class HandlePage {
         this.self = self;
         handler = this;
 
-        PageTab = new PageTab(self);
+        PageTab = new PageTab(self, this);
 
         PageTab.addMouseListener(new MouseDown());
 
