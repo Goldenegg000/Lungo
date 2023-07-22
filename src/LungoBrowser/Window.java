@@ -112,7 +112,7 @@ public class Window extends Thread {
 
         frame.addKeyListener(new KeyWindowListener(""));
         frame.addMouseListener(new MouseWindowListener());
-        // urlField.addKeyListener(new KeyWindowListener("urlField"));
+        urlField.addKeyListener(new KeyWindowListener("urlField"));
         searchButton.addKeyListener(new KeyWindowListener(""));
         HomeButton.addKeyListener(new KeyWindowListener(""));
         previousPage.addKeyListener(new KeyWindowListener(""));
