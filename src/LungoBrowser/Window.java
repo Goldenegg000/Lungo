@@ -497,7 +497,7 @@ public class Window extends Thread {
             handler.UrlUpdated(handler.UrlHistory.get(handler.UrlHistoryIndx - 1));
         }
 
-        Log(handler.UrlHistory, handler.UrlHistoryIndx);
+        // Log(handler.UrlHistory, handler.UrlHistoryIndx);
     }
 
     public void previousPage() {
