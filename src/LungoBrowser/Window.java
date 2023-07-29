@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -19,6 +20,11 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -83,6 +89,8 @@ public class Window extends Thread {
     public Dimension DefaultSize = new Dimension(1920 / 2, 1080 / 2);
     public boolean isFullScreen = false;
 
+    public Font currentFont;
+
     @Override
     public void run() {
 
@@ -98,6 +106,14 @@ public class Window extends Thread {
         });
 
         frame.setIconImage(App.GetImage("Images/Lungo_Icon_Bg.png"));
+        try {
+            currentFont = Font.createFonts(
+                    Files.newInputStream(
+                            Paths.get(App.class.getClassLoader().getResource("Fonts/Ubuntu-Regular.ttf").toURI())))[0];
+        } catch (FontFormatException | IOException | URISyntaxException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
 
         SetupBrowserUi(LoadedUrl);
         // Debug.Log(frame.getInsets().top);
@@ -118,6 +134,8 @@ public class Window extends Thread {
         previousPage.addKeyListener(new KeyWindowListener(""));
         nextPage.addKeyListener(new KeyWindowListener(""));
         Reload.addKeyListener(new KeyWindowListener(""));
+
+        // urlField.setFont(currentFont.deriveFont(Font.PLAIN, 20));
 
         frame.addMouseMotionListener(new MouseMove());
 
@@ -182,7 +200,7 @@ public class Window extends Thread {
 
     private void SetupBrowserUi(String url) {
         urlField = new JTextField(url); // quick and dirty fix by creating the urlField first.
-        urlField.setFont(new Font("Arial", Font.PLAIN, 20));
+        // urlField.setFont(new Font("Arial", Font.PLAIN, 20));
 
         PageHandlers = new ArrayList<>();
         addPageHandler(new HandlePage(this, url)); // add a page
@@ -213,7 +231,7 @@ public class Window extends Thread {
         // navbar.setLayout(new FlowLayout());
 
         urlField.setBorder(BevelBorder);
-        urlField.setFont(urlField.getFont().deriveFont(UISize - 1));
+        urlField.setFont(currentFont.deriveFont(UISize - 1));
         // urlField.setMaximumSize(new Dimension(10000, NavBarHeight));
 
         urlField.setBackground(currentColorProfile.buttonColor);
@@ -221,7 +239,7 @@ public class Window extends Thread {
         urlField.setCaretColor(currentColorProfile.FretColor);
         urlField.setSelectionColor(currentColorProfile.HighlightColor);
 
-        searchButton = createUiButton(SearchLense, urlField.getFont(), BevelBorder, (ActionEvent e) -> {
+        searchButton = createUiButton(SearchLense, currentFont, BevelBorder, (ActionEvent e) -> {
             PaintLoading(true);
             EventQueue.invokeLater(new Runnable() {
                 @Override
@@ -233,7 +251,7 @@ public class Window extends Thread {
             });
         }, true);
 
-        HomeButton = createUiButton(home, urlField.getFont(), BevelBorder, (ActionEvent e) -> {
+        HomeButton = createUiButton(home, currentFont, BevelBorder, (ActionEvent e) -> {
             var handler = PageHandlers.get(currentPageIndx);
             handler.UrlHistoryIndx = 0;
             handler.UrlHistory = new ArrayList<>();
@@ -248,17 +266,17 @@ public class Window extends Thread {
             });
         }, true);
 
-        previousPage = createUiButton(before, urlField.getFont(), BevelBorder, (ActionEvent e) -> {
+        previousPage = createUiButton(before, currentFont, BevelBorder, (ActionEvent e) -> {
             previousPage();
             Log("pressed previous button");
         }, true);
 
-        nextPage = createUiButton(next, urlField.getFont(), BevelBorder, (ActionEvent e) -> {
+        nextPage = createUiButton(next, currentFont, BevelBorder, (ActionEvent e) -> {
             nextPage();
             Log("pressed next button");
         }, true);
 
-        Reload = createUiButton(reload, urlField.getFont(), BevelBorder, (ActionEvent e) -> {
+        Reload = createUiButton(reload, currentFont, BevelBorder, (ActionEvent e) -> {
             Reload.setIcon(new ImageIcon(reloading));
             PaintLoading(true);
             EventQueue.invokeLater(new Runnable() {
@@ -273,7 +291,7 @@ public class Window extends Thread {
             });
         }, true);
 
-        AddNewTabButton = createUiButton(newTab, urlField.getFont(), BevelBorder, (ActionEvent e) -> {
+        AddNewTabButton = createUiButton(newTab, currentFont, BevelBorder, (ActionEvent e) -> {
             addPageHandler(new HandlePage(this, ""));
             Update();
         }, false);
@@ -413,12 +431,22 @@ public class Window extends Thread {
     }
 
     public void addPageHandler(HandlePage pageHandler) {
+        PaintLoading(true);
         PageHandlers.add(pageHandler);
+        currentPageIndx = PageHandlers.size() - 1;
         updateTabBar();
         frame.repaint();
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                UpdateUrl("", false);
+                PaintLoading(false);
+            }
+        });
     }
 
     public void removePageHandler(HandlePage pageHandler) {
+        PaintLoading(true);
         PageHandlers.remove(pageHandler);
         if (PageHandlers.size() == 0)
             CloseThisWindow();
@@ -428,6 +456,13 @@ public class Window extends Thread {
             currentPageIndx--;
         updateTabBar();
         frame.repaint();
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                UpdateUrl("", false);
+                PaintLoading(false);
+            }
+        });
     }
 
     boolean updated = false;

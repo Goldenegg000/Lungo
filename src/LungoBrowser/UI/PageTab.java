@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import LungoBrowser.App;
-import LungoBrowser.Debug;
+// import LungoBrowser.Debug;
 import LungoBrowser.HandlePage;
 import LungoBrowser.Window;
 
@@ -39,12 +39,13 @@ public class PageTab extends JPanel {
         closeButton = self.createUiButton(
                 closeImage.getScaledInstance(ButtonSize, ButtonSize,
                         java.awt.Image.SCALE_SMOOTH),
-                self.urlField.getFont(), BevelBorder, (ActionEvent e) -> {
+                self.currentFont, BevelBorder, (ActionEvent e) -> {
                     self.removePageHandler(page);
                 }, false);
         closeButton.setBackground(new Color(0, 0, 0, 0));
 
         label = new JLabel("");
+        label.setFont(self.currentFont.deriveFont(self.UISize - 7));
         label.setForeground(self.currentColorProfile.TextColor);
         add(label);
         add(closeButton);
