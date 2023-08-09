@@ -339,6 +339,18 @@ public class App {
 		return false;
 	}
 
+	public static boolean isValidUrl(URI uri) {
+		try {
+			if (uri.getPath().equals(""))
+				return false;
+			URLDecoder.decode(uri.getPath(), StandardCharsets.UTF_8.toString());
+		} catch (Exception e) {
+			// Failed to decode path
+			return false;
+		}
+		return true;
+	}
+
 	public static byte[] convertToByteArray(ArrayList<Byte> arrayList) {
 		byte[] byteArray = new byte[arrayList.size()];
 

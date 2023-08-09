@@ -20,7 +20,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
+// import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -371,7 +371,7 @@ public class Window extends Thread {
         Update();
         frame.repaint();
         // Reload.setIcon(new ImageIcon(reload));
-        Log("loaded webpage");
+        Log("switched tab");
     }
 
     public int getCurrentPage() {
@@ -446,7 +446,6 @@ public class Window extends Thread {
     }
 
     public void removePageHandler(HandlePage pageHandler) {
-        PaintLoading(true);
         PageHandlers.remove(pageHandler);
         if (PageHandlers.size() == 0)
             CloseThisWindow();
@@ -459,8 +458,7 @@ public class Window extends Thread {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                UpdateUrl("", false);
-                PaintLoading(false);
+                UpdateUrl("", false, true);
             }
         });
     }
@@ -468,7 +466,7 @@ public class Window extends Thread {
     boolean updated = false;
 
     private void updateTabBar() {
-        Debug.Log(tabbar);
+        // Debug.Log(tabbar);
         if (tabbar != null) {
             updated = true;
             List<PageTab> pageTabs = new ArrayList<>();

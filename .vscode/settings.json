@@ -26,6 +26,7 @@
         "Ratioed",
         "strs",
         "tabbar",
-        "vals"
+        "vals",
+        "webrenderer"
     ]
 }

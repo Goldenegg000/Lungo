@@ -52,6 +52,7 @@ public class HandlePage {
         PageTab.addMouseListener(new MouseDown());
 
         PageTab.setText(url);
+        PageTab.setFocusable(true);
         if (url == "") {
             PageTab.setText("Lungo Homepage");
         }
@@ -60,12 +61,12 @@ public class HandlePage {
     private class MouseDown implements MouseListener {
         @Override
         public void mouseClicked(java.awt.event.MouseEvent e) {
-            self.setCurrentPage(handler);
-            Debug.Log(self.getCurrentPage());
         }
 
         @Override
         public void mousePressed(java.awt.event.MouseEvent e) {
+            PageTab.requestFocusInWindow();
+            self.setCurrentPage(handler);
         }
 
         @Override
