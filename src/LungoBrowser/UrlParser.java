@@ -30,6 +30,8 @@ public class UrlParser {
     }
 
     public static String MakeValidUrl(String url) {
+        if (url.isEmpty())
+            return "";
         url = url.trim();
         url = url.replaceAll("\\\\", "/");
         url = url.replaceAll("file:/*", "file:///");

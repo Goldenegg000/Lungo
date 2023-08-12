@@ -649,6 +649,11 @@ public class Window extends Thread {
                 }
                 if (keyCode.equals(KeyEvent.VK_ENTER)) {
                     PaintLoading(true);
+                    if (urlField.getText().isEmpty()) {
+                        var handler = PageHandlers.get(currentPageIndx);
+                        handler.UrlHistoryIndx = 0;
+                        handler.UrlHistory = new ArrayList<>();
+                    }
                     EventQueue.invokeLater(new Runnable() {
                         @Override
                         public void run() {

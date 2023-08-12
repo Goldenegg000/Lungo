@@ -36,6 +36,7 @@ public class Drawer {
     }
 
     String contentType;
+    ContentType contentTypeResult;
 
     public void UrlUpdated(URI url) {
         Pair<byte[], HttpURLConnection> content = null;
@@ -62,21 +63,24 @@ public class Drawer {
                 content = UrlParser.downloadFromUri(url);
             }
         } else if (url.getPath().equals("")) {
+            contentTypeResult = ContentType.home;
             Log("loading homepage");
             return;
         }
 
         if (content == null) {
+            contentTypeResult = ContentType.invalid;
             Log("failed getting data from uri");
             return;
         }
 
         Log("checking for data type");
         contentType = getContentType(content);
+        contentTypeResult = getContentSimpleType(contentType);
         Debug.Log(contentType);
 
         BufferedImage loadImg = null;
-        if (getContentSimpleType(contentType).equals("image")) {
+        if (contentTypeResult == ContentType.image) {
             Log("matched image, converting to image...");
             loadImg = App.GetImageFromData(content.Value1);
             if (loadImg != null) {
@@ -85,11 +89,13 @@ public class Drawer {
                 return;
             }
             Debug.Error("could not load image! type: " + contentType);
+            contentTypeResult = ContentType.invalid;
             // Debug.Write(content.Value1, "debug.jpg");
             return;
         }
 
         Log("no types matched");
+        contentTypeResult = ContentType.home;
     }
 
     Image StaticImage = null;
@@ -101,13 +107,18 @@ public class Drawer {
         return contentType;
     }
 
-    private String getContentSimpleType(String conString) {
+    private enum ContentType {
+        image,
+        invalid, home;
+    }
+
+    private ContentType getContentSimpleType(String conString) {
         if (conString.equals("image/jpg")
                 || conString.equals("image/jpeg")
                 || conString.equals("image/png")
                 || conString.equals("image/webp"))
-            return "image";
-        return "invalid";
+            return ContentType.image;
+        return ContentType.invalid;
     }
 
     public void Paint(Dimension size, Graphics graph) {
@@ -120,10 +131,16 @@ public class Drawer {
 
         g.fillRect(0, 0, size.width, size.height, new Color(0x20, 0x20, 0x20));
 
-        if (StaticImage != null) {
-            DrawImageScreen(size, g, StaticImage, " Typ:" + contentType);
-        } else {
-            homePage.draw(size, g);
+        if (contentTypeResult == null)
+            return;
+        switch (contentTypeResult) {
+            case image:
+                DrawImageScreen(size, g, StaticImage, " Typ:" + contentType);
+                break;
+            case invalid:
+                break;
+            case home:
+                homePage.draw(size, g);
         }
     }
 
