@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import LungoBrowser.UI.GraphicsPlus;
-import LungoBrowser.webrenderer.HomePage;
+import LungoBrowser.webrenderer.*;
 
 import static LungoBrowser.Debug.Log;
 // import static LungoBrowser.Debug.Warn;
@@ -24,6 +24,7 @@ public class Drawer {
     private HandlePage PageHandler;
 
     private HomePage homePage = new HomePage();
+    private ErrorPage errorPage = new ErrorPage();
 
     public Drawer(Window self, HandlePage pageH) {
         super();
@@ -107,7 +108,7 @@ public class Drawer {
         return contentType;
     }
 
-    private enum ContentType {
+    public enum ContentType {
         image,
         invalid, home;
     }
@@ -138,6 +139,7 @@ public class Drawer {
                 DrawImageScreen(size, g, StaticImage, " Typ:" + contentType);
                 break;
             case invalid:
+                errorPage.draw(size, g, contentTypeResult);
                 break;
             case home:
                 homePage.draw(size, g);
