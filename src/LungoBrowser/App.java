@@ -13,7 +13,9 @@ import java.io.File;
 // import java.io.ByteArrayOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -307,6 +309,11 @@ public class App {
 		} catch (IOException e) {
 		}
 		return new ArrayList<Byte>();
+	}
+
+	public static InputStream getFileInputStream(String path) throws IOException, URISyntaxException {
+		return Files.newInputStream(
+				Paths.get(App.class.getClassLoader().getResource("Fonts/Ubuntu-Regular.ttf").toURI()));
 	}
 
 	public static void writeToFile(String fileName, String content) throws IOException {

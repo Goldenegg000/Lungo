@@ -1,7 +1,6 @@
 package LungoBrowser;
 
 import java.awt.Dimension;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -295,18 +294,8 @@ public class Debug {
             try {
                 App.appendToFile("log.txt", output + "\n");
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                Debug.Error("cannot write Log to file log.txt");
             }
-        }
-    }
-
-    public static void Write(byte[] data, String fileName) {
-        try (FileOutputStream fos = new FileOutputStream(fileName)) {
-            fos.write(data);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
     }
 }

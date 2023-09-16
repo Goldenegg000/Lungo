@@ -107,12 +107,11 @@ public class Window extends Thread {
 
         frame.setIconImage(App.GetImage("Images/Lungo_Icon_Bg.png"));
         try {
-            currentFont = Font.createFonts(
-                    Files.newInputStream(
-                            Paths.get(App.class.getClassLoader().getResource("Fonts/Ubuntu-Regular.ttf").toURI())))[0];
+            currentFont = Font.createFonts(App.getFileInputStream("Fonts/Ubuntu-Regular.ttf"))[0];
         } catch (FontFormatException | IOException | URISyntaxException e1) {
-            // TODO Auto-generated catch block
+            Debug.Error("could not load font: \"Fonts/Ubuntu-Regular.ttf\" in jar Resource");
             e1.printStackTrace();
+            System.exit(1);
         }
 
         SetupBrowserUi(LoadedUrl);

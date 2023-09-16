@@ -8,8 +8,6 @@ import java.awt.image.BufferedImage;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Random;
 
 import LungoBrowser.UI.GraphicsPlus;
 import LungoBrowser.webrenderer.*;
