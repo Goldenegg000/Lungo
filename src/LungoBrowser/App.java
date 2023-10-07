@@ -169,7 +169,7 @@ public class App {
 	}
 
 	public static Image GetImage(String url) { // get image FROM THE JAR FILE!!!
-		URL url2Img = App.class.getClassLoader().getResource(url);
+		var url2Img = App.class.getClassLoader().getResource(url);
 
 		if (url2Img == null) {
 			new Exception("Unable to load image: " + url).printStackTrace();
@@ -312,8 +312,7 @@ public class App {
 	}
 
 	public static InputStream getFileInputStream(String path) throws IOException, URISyntaxException {
-		return Files.newInputStream(
-				Paths.get(App.class.getClassLoader().getResource("Fonts/Ubuntu-Regular.ttf").toURI()));
+		return App.class.getClassLoader().getResourceAsStream(path);
 	}
 
 	public static void writeToFile(String fileName, String content) throws IOException {
